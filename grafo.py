@@ -57,22 +57,23 @@ class Grafo:
 
     def mostrar_grafo(self):
         """
-        Muestra la información del grafo de forma estética.
+        Muestra la información del grafo como una lista de adyacencia.
         """
         pp = pprint.PrettyPrinter(indent=4)
         pp.pprint(self.grafo)
 
-    def mostrar_adyacencia(self):
+    def ciudades_conectadas(self, ciudad1, ciudad2):
         """
-        Muestra la lista de adyacencia del grafo.
-        """
-        for ciudad in self.grafo:
-            print(ciudad, self.grafo[ciudad].keys())
+        Determina si la ciudad A y B están conectadas por una única carretera.
 
-    def mostrar_adyacenciapp(self):
+        Parámetros:
+        - ciudad1: Ciudad de origen.
+        - ciudad2: Ciudad de destino.
         """
-        Muestra la lista de adyacencia del grafo de forma estética.
-        """
-        pp = pprint.PrettyPrinter(indent=4)
-        for ciudad in self.grafo:
-            print(ciudad, self.grafo[ciudad].keys())
+        if ciudad1 in self.grafo:
+            if ciudad2 in self.grafo[ciudad1]:
+                print(f"\nLas ciudades de {ciudad1} y {ciudad2} están conectadas por una única carretera")
+            else:
+                print(f"\nLas ciudades de {ciudad1} y {ciudad2} no están conectadas por una única carretera")
+        else:
+            print(f"\nLas ciudades de {ciudad1} y {ciudad2} no están conectadas por una única carretera")

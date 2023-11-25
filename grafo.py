@@ -77,3 +77,13 @@ class Grafo:
                 print(f"\nLas ciudades de {ciudad1} y {ciudad2} no están conectadas por una única carretera")
         else:
             print(f"\nLas ciudades de {ciudad1} y {ciudad2} no están conectadas por una única carretera")
+
+    '''
+    - Se usará el método de Dijkstra para encontrar la ruta más corta entre dos ciudades
+        ya que es eficiente y efectivo para grafos ponderados con pesos no negativos.
+    - No se usa Bellman-Ford porque es más lento que Dijkstra aunque es más versátil ya que puede manejar pesos negativos.
+    - Floyd-Warshall no es eficiente para grafos grandes. Su complejidad es O(V^3) donde V es el número de vértices.
+        se puede usar para encontrar la ruta más corta entre todos los pares de vértices. 
+        Solo necesitamos encontrar la ruta más corta entre dos ciudades.
+    - Johnson es útil para grafos dispersos. Pero no es tan eficiente como Dijkstra.
+    '''

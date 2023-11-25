@@ -1,6 +1,7 @@
 # Instalar pandas e importarla como pd  (pip install pandas)    
 import pandas as pd
 import pprint
+import heapq
 
 class Grafo:
     """
@@ -87,3 +88,4 @@ class Grafo:
         Solo necesitamos encontrar la ruta más corta entre dos ciudades.
     - Johnson es útil para grafos dispersos. Pero no es tan eficiente como Dijkstra.
     '''
+                        

@@ -5,7 +5,7 @@ grafo.cargar_desde_csv('datos/Datos vias Colombia.csv')
 print("\nGrafo Cargado")
 print("\nGrafo:\n")
 grafo.mostrar_grafo()
-print("\nLista de Adyacencia:\n")
-grafo.mostrar_adyacencia()
-print("\nLista de Adyacencia de forma estética:\n")
-grafo.mostrar_adyacenciapp()
+
+ciudad1, ciudad2 = input("\nIngrese la ciudad de origen: "), input("Ingrese la ciudad de destino: ")
+
+grafo.ciudades_conectadas(ciudad1, ciudad2)

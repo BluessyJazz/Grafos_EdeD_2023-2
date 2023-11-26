@@ -39,6 +39,9 @@ archivo_csv = "datos/Datos vias Colombia.csv"
 grafo.cargar_desde_csv(archivo_csv)
 
 while True:
-    mostrar_menu()
-    opcion = int(input("Seleccione una opción: "))
-    opciones(opcion, grafo)
+    try:
+        mostrar_menu()
+        opcion = int(input("Seleccione una opción: "))
+        opciones(opcion, grafo)
+    except ValueError:
+        print("Error: Ingrese un número válido.")

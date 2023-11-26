@@ -29,7 +29,7 @@ class Grafo:
 
     def __str__(self):
         return str(self.grafo)
-
+    
     def agregar_arista(self, ciudad1, ciudad2, distancia, tiempo):
         """
         Agrega una arista al grafo.
@@ -63,6 +63,27 @@ class Grafo:
         pp = pprint.PrettyPrinter(indent=4)
         pp.pprint(self.grafo)
 
+    def mostrar_nodo(self, ciudad):
+        """
+        Muestra la información de un nodo del grafo.
+
+        Parámetros:
+        - ciudad: Ciudad del nodo.
+        """
+        if ciudad not in self.grafo:
+            print(f"\nLa ciudad de {ciudad} no existe en el grafo")
+            return None
+        else:
+            vecinos = self.obtener_vecinos(ciudad)
+            print(f"\nCiudad: {ciudad}")
+            print(f"Conexiones: {vecinos}")
+
+    def obtener_vecinos(self, nodo):
+        if nodo in self.grafo:
+            return self.grafo[nodo]
+        else:
+            return None
+
     def ciudades_conectadas(self, ciudad1, ciudad2):
         """
         Determina si la ciudad A y B están conectadas por una única carretera.
@@ -79,6 +100,7 @@ class Grafo:
         else:
             print(f"\nLas ciudades de {ciudad1} y {ciudad2} no están conectadas por una única carretera")
 
+    # Justificación de la implementación de Dijkstra
     '''
     - Se usará el método de Dijkstra para encontrar la ruta más corta entre dos ciudades
         ya que es eficiente y efectivo para grafos ponderados con pesos no negativos.
@@ -88,4 +110,105 @@ class Grafo:
         Solo necesitamos encontrar la ruta más corta entre dos ciudades.
     - Johnson es útil para grafos dispersos. Pero no es tan eficiente como Dijkstra.
     '''
-                        
+
+    def dijkstra(self, inicio, fin, peso):
+        """
+        Aplica el algoritmo de Dijkstra para encontrar el camino más corto desde el nodo de inicio hasta el nodo de destino en el grafo.
+
+        Args:
+            inicio: El nodo de inicio del camino.
+            fin: El nodo de destino del camino.
+            peso: La función para obtener el peso de las aristas. Puede ser obtener_distancia o obtener_tiempo.
+
+        Returns:
+            Una tupla que contiene el camino más corto desde el nodo de inicio hasta el nodo de destino y el peso total del camino.
+            Si no hay un camino válido, retorna None.
+        """
+        cola = [(0, inicio)]  # Cola de prioridad para almacenar los nodos a visitar
+        visitados = set()  # Conjunto de nodos visitados
+        pesos = {inicio: 0}  # Diccionario para almacenar las distancias mínimas desde el nodo de inicio
+        previos = {inicio: None}  # Diccionario para almacenar los nodos previos en el camino más corto
+
+        while cola:
+            (dist, actual) = heapq.heappop(cola)  # Obtener el nodo actual de la cola de prioridad
+            if actual not in visitados:
+                visitados.add(actual)  # Marcar el nodo actual como visitado
+                if actual == fin:
+                    camino = []
+                    peso_total = dist
+                    while previos[actual] is not None:
+                        camino.insert(0, actual)  # Insertar el nodo actual al inicio del camino
+                        actual = previos[actual]  # Actualizar el nodo actual al nodo previo
+                    camino.insert(0, inicio)  # Insertar el nodo de inicio al inicio del camino
+                    return camino, peso_total  # Retornar el camino más corto y el peso total encontrado
+
+
+                # Recorrer los nodos adyacentes al nodo actual
+                vecinos = self.obtener_vecinos(actual)
+                if vecinos is not None:
+                    for vecino in vecinos:
+                        if peso == "km":
+                            peso_actual = self.obtener_distancia(actual, vecino)
+                        elif peso == "tiempo":
+                            peso_actual = self.obtener_tiempo(actual, vecino)
+                        # Calcular el peso acumulado desde el nodo de inicio hasta el nodo vecino
+                        peso_acumulado = dist + peso_actual
+                        # Actualizar el peso mínimo si es menor al peso almacenado previamente
+                        if vecino not in pesos or peso_acumulado < pesos[vecino]:
+                            pesos[vecino] = peso_acumulado
+                            previos[vecino] = actual
+                            heapq.heappush(cola, (peso_acumulado, vecino))
+
+        return None  # Si no se encuentra un camino válido, retornar None
+    
+    def obtener_tiempo(self, ciudad1, ciudad2):
+        """
+        Obtiene el tiempo de viaje entre dos ciudades.
+
+        Parámetros:
+        - ciudad1: Ciudad de origen.
+        - ciudad2: Ciudad de destino.
+
+        Returns:
+        El tiempo de viaje entre las ciudades. Si no existe una conexión entre las ciudades, retorna None.
+        """
+        if ciudad1 in self.grafo and ciudad2 in self.grafo[ciudad1]:
+            return self.grafo[ciudad1][ciudad2][1]
+        else:
+            return None
+
+    def obtener_distancia(self, ciudad1, ciudad2):
+        """
+        Obtiene la distancia entre dos ciudades.
+
+        Parámetros:
+        - ciudad1: Ciudad de origen.
+        - ciudad2: Ciudad de destino.
+
+        Returns:
+        La distancia entre las ciudades. Si no existe una conexión entre las ciudades, retorna None.
+        """
+        if ciudad1 in self.grafo and ciudad2 in self.grafo[ciudad1]:
+            return self.grafo[ciudad1][ciudad2][0]
+        else:
+            return None
+        
+    def calcular_distancia(self, ciudad1, ciudad2):
+        camino = self.dijkstra(ciudad1, ciudad2, 'km')
+        
+
+        if camino is not None:
+            distancia = self.obtener_distancia(ciudad1, ciudad2)
+            print(f"\nEl camino más corto entre {ciudad1} y {ciudad2} es: {camino[0]}\nLa distancia es: {camino[1]} km")
+        else:
+            print(f"\nNo existe un camino válido entre {ciudad1} y {ciudad2}")
+
+    def calcular_tiempo(self, ciudad1, ciudad2):
+        camino = self.dijkstra(ciudad1, ciudad2, 'tiempo')
+        if camino is not None:
+            tiempo = self.obtener_tiempo(ciudad1, ciudad2)
+            print(f"\nEl camino más corto entre {ciudad1} y {ciudad2} es: {camino[0]}\nEl tiempo es: {camino[1]} horas")
+        else:
+            print(f"\nNo existe un camino válido entre {ciudad1} y {ciudad2}")
+
+        

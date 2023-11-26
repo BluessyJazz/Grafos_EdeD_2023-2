@@ -94,11 +94,11 @@ class Grafo:
         """
         if ciudad1 in self.grafo:
             if ciudad2 in self.grafo[ciudad1]:
-                print(f"\nLas ciudades de {ciudad1} y {ciudad2} están conectadas por una única carretera")
+                print(f"\nLas ciudades de \033[92m{ciudad1}\033[0m y \033[92m{ciudad2}\033[0m están conectadas por una única carretera")
             else:
-                print(f"\nLas ciudades de {ciudad1} y {ciudad2} no están conectadas por una única carretera")
+                print(f"\nLas ciudades de \033[91m{ciudad1}\033[0m y \033[91m{ciudad2}\033[0m no están conectadas por una única carretera")
         else:
-            print(f"\nLas ciudades de {ciudad1} y {ciudad2} no están conectadas por una única carretera")
+            print(f"\nLas ciudades de \033[91m{ciudad1}\033[0m y \033[91m{ciudad2}\033[0m no están conectadas por una única carretera")
 
     # Justificación de la implementación de Dijkstra
     '''
@@ -195,20 +195,21 @@ class Grafo:
         
     def calcular_distancia(self, ciudad1, ciudad2):
         camino = self.dijkstra(ciudad1, ciudad2, 'km')
-        
+        ciudades = " -> ".join(camino[0])
 
         if camino is not None:
-            distancia = self.obtener_distancia(ciudad1, ciudad2)
-            print(f"\nEl camino más corto entre {ciudad1} y {ciudad2} es: {camino[0]}\nLa distancia es: {camino[1]} km")
+            print(f"\nEl camino más corto entre \033[91m{ciudad1}\033[0m y \033[91m{ciudad2}\033[0m es: {ciudades}\nLa distancia es de: \033[91m{camino[1]}\033[0m km")
         else:
-            print(f"\nNo existe un camino válido entre {ciudad1} y {ciudad2}")
+            print(f"\nNo existe un camino válido entre \033[91m{ciudad1}\033[0m y \033[91m{ciudad2}\033[0m")
 
     def calcular_tiempo(self, ciudad1, ciudad2):
         camino = self.dijkstra(ciudad1, ciudad2, 'tiempo')
         if camino is not None:
-            tiempo = self.obtener_tiempo(ciudad1, ciudad2)
-            print(f"\nEl camino más corto entre {ciudad1} y {ciudad2} es: {camino[0]}\nEl tiempo es: {camino[1]} horas")
+            horas = camino[1] // 60
+            min_horas = camino[1] % 60
+            ciudades = " -> ".join(camino[0])
+            print(f"\nEl camino más rápido entre \033[91m{ciudad1}\033[0m y \033[91m{ciudad2}\033[0m es: {ciudades}\nEl tiempo de viaje es de: \033[91m{camino[1]}\033[0m minutos, es decir \033[91m{horas}\033[0m horas y \033[91m{min_horas}\033[0m minutos")
         else:
-            print(f"\nNo existe un camino válido entre {ciudad1} y {ciudad2}")
+            print(f"\nNo existe un camino válido entre \033[91m{ciudad1}\033[0m y \033[91m{ciudad2}\033[0m")
 
         

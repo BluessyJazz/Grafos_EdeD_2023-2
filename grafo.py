@@ -1,7 +1,6 @@
 import csv
 import pprint
 import heapq
-import csv
 
 class Grafo:
     """
@@ -42,7 +41,10 @@ class Grafo:
         """
         if ciudad1 not in self.grafo:
             self.grafo[ciudad1] = {}
+        if ciudad2 not in self.grafo:
+            self.grafo[ciudad2] = {}
         self.grafo[ciudad1][ciudad2] = (distancia, tiempo)
+        self.grafo[ciudad2][ciudad1] = (distancia, tiempo)
 
 
     def cargar_desde_csv(self, ruta_archivo):
@@ -57,7 +59,7 @@ class Grafo:
             next(lector_csv)  # Skip the header row
             for fila in lector_csv:
                 ciudad1, ciudad2, distancia, tiempo = fila
-                self.agregar_arista(ciudad1, ciudad2, distancia, tiempo)
+                self.agregar_arista(ciudad1, ciudad2, int(distancia), int(tiempo))
 
     def mostrar_grafo(self):
         """

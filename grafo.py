@@ -1,7 +1,7 @@
-# Instalar pandas e importarla como pd  (pip install pandas)    
-import pandas as pd
+import csv
 import pprint
 import heapq
+import csv
 
 class Grafo:
     """
@@ -44,6 +44,7 @@ class Grafo:
             self.grafo[ciudad1] = {}
         self.grafo[ciudad1][ciudad2] = (distancia, tiempo)
 
+
     def cargar_desde_csv(self, ruta_archivo):
         """
         Carga las aristas del grafo desde un archivo CSV.
@@ -51,10 +52,12 @@ class Grafo:
         Parámetros:
         - ruta_archivo: Ruta del archivo CSV.
         """
-        datos = pd.read_csv(ruta_archivo, sep=',')
-        for _, fila in datos.iterrows():
-            ciudad1, ciudad2, distancia, tiempo = fila
-            self.agregar_arista(ciudad1, ciudad2, distancia, tiempo)
+        with open(ruta_archivo, 'r') as archivo:
+            lector_csv = csv.reader(archivo, delimiter=',')
+            next(lector_csv)  # Skip the header row
+            for fila in lector_csv:
+                ciudad1, ciudad2, distancia, tiempo = fila
+                self.agregar_arista(ciudad1, ciudad2, distancia, tiempo)
 
     def mostrar_grafo(self):
         """

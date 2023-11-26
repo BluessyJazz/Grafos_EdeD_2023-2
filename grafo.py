@@ -157,7 +157,7 @@ class Grafo:
                         # Calcular el peso acumulado desde el nodo de inicio hasta el nodo vecino
                         peso_acumulado = dist + peso_actual
                         # Actualizar el peso mínimo si es menor al peso almacenado previamente
-                        if vecino not in pesos or peso_acumulado < pesos[vecino]:
+                        if vecino not in pesos or peso_acumulado < pesos[vecino]: # Si el vecino no está en el diccionario de pesos o el peso acumulado es menor al peso almacenado previamente
                             pesos[vecino] = peso_acumulado
                             previos[vecino] = actual
                             heapq.heappush(cola, (peso_acumulado, vecino))
